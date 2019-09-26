@@ -15,8 +15,7 @@ function durationMonth(from, until = new Date()) {
 	function dayInMonth(m, year) {
 		m = parseInt(m);
 		if (m === 2) return leapYear(year) ? 29 : 28;
-		if ([4, 6, 9, 11].indexOf(m) !== -1) return 30;
-		return 31;
+		return ([4, 6, 9, 11].indexOf(m) !== -1) ? 30 : 31;
 	}
 
 	const yearDuration = nowYear - currentYear;
