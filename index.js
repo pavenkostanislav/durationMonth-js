@@ -13,26 +13,16 @@ function durationMonth(from, until = new Date()) {
 	}
 
 	function dayInMonth(m, year) {
-		const _m = (typeof m === 'string') ? parseInt(m) : m;
-		if (_m === 2) return leapYear(year) ? 29 : 28;
-		if (_m === 1 || _m === 3 || _m === 5 || _m === 7 || _m === 10 || _m === 8 || _m === 12) return 31;
-		if (_m === 4 || _m === 6 || _m === 9 || _m === 11) return 30;
-
-		console.log('Something went wrong...');
-		return undefined;
-	}
-
-	function duration(start, end, max) {
-		const _start = (typeof start === 'string') ? parseInt(start) : start;
-		const _end = (typeof end === 'string') ? parseInt(end) : end;
-
-		return max - _start + _end;
+		m = parseInt(m);
+		if (m === 2) return leapYear(year) ? 29 : 28;
+		if ([4, 6, 9, 11].indexOf(m) !== -1) return 30;
+		return 31;
 	}
 
 	const yearDuration = nowYear - currentYear;
-	const monthDuration = duration(currentMonth, nowMonth, 12);
+	const monthDuration = 12 - parseInt(currentMonth) + parseInt(nowMonth);
 	const _dayInMonth = dayInMonth(currentMonth, currentYear);
-	const dayDuration = duration(currentDay, nowDay, _dayInMonth);
+	const dayDuration = _dayInMonth - parseInt(currentDay) + parseInt(nowDay);
 	const realMonth = monthDuration - (dayDuration >= _dayInMonth ? 0 : 1) - (yearDuration >= 1 ? 0 : 12);
 
 	if (yearDuration > 1 || realMonth >= 12) {
