@@ -24,7 +24,7 @@ function durationMonth(from, until = new Date()) {
 	const dayDuration = _dayInMonth - parseInt(currentDay) + parseInt(nowDay);
 	const realMonth = monthDuration - (dayDuration >= _dayInMonth ? 0 : 1) - (yearDuration >= 1 ? 0 : 12);
 
-	if (yearDuration > 1 || realMonth >= 12) {
+	if (yearDuration > 1) {
 		return (yearDuration + (realMonth >= 12 ? 0 : -1)) * 12;
 	}
 
