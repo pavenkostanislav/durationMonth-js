@@ -1,34 +1,35 @@
 "use strict"
 
 function durationMonth(from, until = new Date()) {
-	const nowMonth = until.getMonth() + 1;
-	const nowDay = until.getDate();
-	const nowYear = until.getFullYear();
+    const nowMonth = until.getMonth() + 1;
+    const nowDay = until.getDate();
+    const nowYear = until.getFullYear();
 
-	const currentYear = from.getFullYear();
-	const currentMonth = from.getMonth() + 1;
-	const currentDay = from.getDate() + ((currentMonth === 2 && leapYear(currentYear) && !leapYear(nowYear)) ? -1 : 0);
-	function leapYear(year) {
-		return new Date(year, 1, 29).getDate() === 29;
-	}
+    const currentYear = from.getFullYear();
+    const currentMonth = from.getMonth() + 1;
+    const currentDay = from.getDate() + ((currentMonth === 2 && leapYear(currentYear) && !leapYear(nowYear)) ? -1 : 0);
 
-	function dayInMonth(m, year) {
-		m = parseInt(m);
-		if (m === 2) return leapYear(year) ? 29 : 28;
-		return ([4, 6, 9, 11].indexOf(m) !== -1) ? 30 : 31;
-	}
+    function leapYear(year) {
+        return new Date(year, 1, 29).getDate() === 29;
+    }
 
-	const yearDuration = nowYear - currentYear;
-	const monthDuration = 12 - parseInt(currentMonth) + parseInt(nowMonth);
-	const _dayInMonth = dayInMonth(currentMonth, currentYear);
-	const dayDuration = _dayInMonth - parseInt(currentDay) + parseInt(nowDay);
-	const realMonth = monthDuration - (dayDuration >= _dayInMonth ? 0 : 1) - (yearDuration >= 1 ? 0 : 12);
+    function dayInMonth(m, year) {
+        m = parseInt(m);
+        if (m === 2) return leapYear(year) ? 29 : 28;
+        return ([4, 6, 9, 11].indexOf(m) !== -1) ? 30 : 31;
+    }
 
-	if (yearDuration > 1) {
-		return (yearDuration + (realMonth >= 12 ? 0 : -1)) * 12;
-	}
+    const yearDuration = nowYear - currentYear;
+    const monthDuration = 12 - parseInt(currentMonth) + parseInt(nowMonth);
+    const _dayInMonth = dayInMonth(currentMonth, currentYear);
+    const dayDuration = _dayInMonth - parseInt(currentDay) + parseInt(nowDay);
+    const realMonth = monthDuration - (dayDuration >= _dayInMonth ? 0 : 1) - (yearDuration >= 1 ? 0 : 12);
 
-	return realMonth;
+    if (yearDuration > 1) {
+        return (yearDuration + (realMonth >= 12 ? 0 : -1)) * 12;
+    }
+
+    return realMonth;
 }
 
 
@@ -37,18 +38,18 @@ function durationMonth(from, until = new Date()) {
 
 function logTest(ex, n, activityDurationData, last = new Date()) {
 
-	if (!!activityDurationData && !!activityDurationData.match(/\d{2}\/\d{2}\/\d{4}/)) {
-		const currentYear = activityDurationData.substr(6, 4);
-		const currentMonth = activityDurationData.substr(3, 2);
-		const currentDay = activityDurationData.substr(0, 2);
-		const current = new Date(currentYear, currentMonth - 1, currentDay)
+    if (!!activityDurationData && !!activityDurationData.match(/\d{2}\/\d{2}\/\d{4}/)) {
+        const currentYear = activityDurationData.substr(6, 4);
+        const currentMonth = activityDurationData.substr(3, 2);
+        const currentDay = activityDurationData.substr(0, 2);
+        const current = new Date(currentYear, currentMonth - 1, currentDay)
 
-		if (durationMonth(current, last) - n !== 0) {
-			console.log(ex + ') ' + durationMonth(current, last), n);
-		}
-	} else {
-		console.log('Something went wrong...');
-	}
+        if (durationMonth(current, last) - n !== 0) {
+            console.log(ex + ') ' + durationMonth(current, last), n);
+        }
+    } else {
+        console.log('Something went wrong...');
+    }
 }
 
 console.log('Starting...');
